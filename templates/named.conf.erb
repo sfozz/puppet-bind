@@ -115,7 +115,7 @@ logging {
 <% end -%>
 //Channels are user-defined log outputs (file or syslog) that receive log events from any
 //categories specified above that reference the channel.
-<%- if @logging['channels'] and !logging['channels'].empty? and @logging['channels'].is_a?(Hash) -%>
+<%- if @logging['channels'] and !@logging['channels'].empty? and @logging['channels'].is_a?(Hash) -%>
 <%- @logging['channels'].each do |channel_name, channel_parameters|-%>
   channel <%=channel_name-%> {
     <%- if !channel_parameters['channel_type'].empty? -%>
