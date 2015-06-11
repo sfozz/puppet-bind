@@ -20,6 +20,8 @@ class bind (
   $service_reload          = true,
   $packagenameprefix       = $::bind::params::packagenameprefix,
   $service_restart_command = $::bind::params::service_restart_command,
+  $binduser                = $::bind::params::binduser,
+  $bindgroup               = $::bind::params::bindgroup,
 ) inherits ::bind::params {
 
   # Main package and service
@@ -27,10 +29,12 @@ class bind (
     true  => '-chroot',
     false => '',
   }
+
   class { 'bind::package':
     packagenameprefix => $packagenameprefix,
     packagenamesuffix => $packagenamesuffix,
   }
+
   class { 'bind::service':
     servicename    => $servicename,
     service_reload => $service_reload,
@@ -42,11 +46,12 @@ class bind (
     true  => '/var/named/chroot/var/log/named',
     false => '/var/log/named',
   }
+
   file { $bindlogdir:
     require => Class['bind::package'],
     ensure  => directory,
-    owner   => $::bind::params::binduser,
-    group   => $::bind::params::bindgroup,
+    owner   => $binduser,
+    group   => $bindgroup,
     mode    => '0770',
     seltype => 'var_log_t',
     before  => Class['bind::service'],

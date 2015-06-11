@@ -142,6 +142,13 @@ define bind::server::conf (
   $views                  = {},
 ) {
 
+  file { $directory:
+    ensure => directory,
+    owner  => $binduser,
+    group  => $bindgroup,
+    mode   => '0750'
+  }
+
   # Everything is inside a single template
   file { $title:
     owner   => $binduser,
